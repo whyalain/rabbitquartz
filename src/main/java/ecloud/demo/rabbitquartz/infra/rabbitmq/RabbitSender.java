@@ -25,6 +25,8 @@ public class RabbitSender {
 		logger.info("Start sending");
 
 		rabbitQuartzService.changeOrderProcessStatus(orderId, ProcessStatusEnum.PROCESSING);
+
+                // 此处发送的消息已经是持久化的，RabbitTemplate中send方法中的message里面的messageProperties默认的DeliveryMode是MessageDeliveryMode.PERSISTENT
 		this.rabbitTemplate.convertAndSend(RabbitConfig.ORDER_EXCHANGE, RabbitConfig.ORDER_ROUTING_KEY,
 				orderId.toString());
 
